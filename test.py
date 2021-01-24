@@ -26,7 +26,7 @@ def test(epoch, name):
     img_transform = transforms.Compose([
         transforms.Resize(image_size),
         transforms.ToTensor(),
-        transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5))
+        transforms.Normalize((0.1307,), (0.3081,))
     ])
 
     model_root = 'model'
@@ -36,7 +36,8 @@ def test(epoch, name):
         dataset = datasets.MNIST(
             root=image_root,
             train=False,
-            transform=img_transform
+            transform=img_transform,
+            download=True
         )
 
         dataloader = torch.utils.data.DataLoader(
@@ -65,7 +66,7 @@ def test(epoch, name):
         )
 
     else:
-        print 'error dataset name'
+        print ('error dataset name')
 
     ####################
     # load model       #
@@ -143,4 +144,6 @@ def test(epoch, name):
 
     accu = n_correct * 1.0 / n_total
 
-    print 'epoch: %d, accuracy of the %s dataset: %f' % (epoch, name, accu)
+    print ('epoch: %d, accuracy of the %s dataset: %f' % (epoch, name, accu))
+
+#test(100, 'mnist')
